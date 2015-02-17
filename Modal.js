@@ -47,7 +47,7 @@ var Modal = React.createClass({displayName: "Modal",
       'in': !this.props.animation || !document.querySelectorAll
     };
 
-    var modal = (
+    return (
       React.createElement("div", React.__spread({}, 
         this.props, 
         {title: null, 
@@ -56,7 +56,8 @@ var Modal = React.createClass({displayName: "Modal",
         style: modalStyle, 
         className: joinClasses(this.props.className, classSet(classes)), 
         onClick: this.props.backdrop === true ? this.handleBackdropClick : null, 
-        ref: "modal"}), 
+        ref: "modal"}),
+        this.props.backdrop ? this.renderBackdrop() : null,
         React.createElement("div", {className: classSet(dialogClasses)}, 
           React.createElement("div", {className: "modal-content"}, 
             this.props.title ? this.renderHeader() : null, 
@@ -65,12 +66,9 @@ var Modal = React.createClass({displayName: "Modal",
         )
       )
     );
-
-    return this.props.backdrop ?
-      this.renderBackdrop(modal) : modal;
   },
 
-  renderBackdrop: function (modal) {
+  renderBackdrop: function () {
     var classes = {
       'modal-backdrop': true,
       'fade': this.props.animation
@@ -82,10 +80,7 @@ var Modal = React.createClass({displayName: "Modal",
       this.handleBackdropClick : null;
 
     return (
-      React.createElement("div", null, 
-        React.createElement("div", {className: classSet(classes), ref: "backdrop", onClick: onClick}), 
-        modal
-      )
+      React.createElement("div", {className: classSet(classes), ref: "backdrop", onClick: onClick})
     );
   },
 
